@@ -13,7 +13,7 @@ contract Contest is Ownable {
     }
 
     function deposit() public payable {
-        escrow.deposit(address(this));
+        escrow.deposit.value(msg.value)(address(this));
     }
 
     function withdraw() public onlyOwner {

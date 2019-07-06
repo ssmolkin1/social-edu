@@ -1,14 +1,50 @@
 const Contest = artifacts.require("Contest");
 
 contract("Contest", async accounts => {
-  let cbc;
+  let contest;
 
   beforeEach(async () => {
-    cbc = await Contest.deployed();
+    contest = await Contest.new();
   });
 
   it("Should deploy", async () => {
-    assert.exists(cbc);
+    assert.exists(contest);
+  });
+
+  it("Should have a reward equal to total deposits", async () => {
+    const d1 = 100;
+    const d2 = 200;
+    const d3 = 300;
+    const deposits = d1 + d2 + d3;
+
+    await contest.deposit({ from: accounts[1], value: d1 });
+    await contest.deposit({ from: accounts[2], value: d2 });
+    await contest.deposit({ from: accounts[3], value: d3 });
+
+    const balance = await web3.eth.getBalance(contest.address);
+    assert.strictEqual(parseInt(balance), 0);
+
+    const reward = await contest.getReward();
+    assert.strictEqual(reward.toNumber(), deposits);
+  });
+
+  it("Should be able to withdraw funds from escrow", async () => {
+    const reward = await contest.getReward();
+    assert.strictEqual(reward.toNumber(), 0);
+
+    const d1 = 100;
+    const d2 = 200;
+    const d3 = 300;
+    const deposits = d1 + d2 + d3;
+
+    await contest.deposit({ from: accounts[1], value: d1 });
+    await contest.deposit({ from: accounts[2], value: d2 });
+    await contest.deposit({ from: accounts[3], value: d3 });
+
+    await contest.withdraw();
+
+    balance = await web3.eth.getBalance(contest.address);
+    assert.strictEqual(parseInt(balance), deposits);
   });
 
   /*   it("Should be named Content Bounty Coin", async () => {
@@ -22,6 +58,7 @@ contract("Contest", async accounts => {
   });
 
   it("Should have 18 decimals", async () => {
+
     const decimals = (await cbc.decimals()).toNumber();
     assert.strictEqual(decimals, 18);
   });
