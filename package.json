@@ -1,0 +1,26 @@
+{
+  "name": "social-edu",
+  "version": "1.0.0",
+  "description": "Education through social media influencers",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "social",
+    "media",
+    "influencer",
+    "education",
+    "charity",
+    "NGO",
+    "nonprofit"
+  ],
+  "author": "Sam Smolkin",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "openzeppelin-solidity": "^2.3.0"
+  }
+}
