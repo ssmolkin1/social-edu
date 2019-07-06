@@ -7,24 +7,13 @@ import "openzeppelin-solidity/contracts/math/SafeMath.sol";
 contract Payment is Ownable {
     using SafeMath for uint256;
 
-struct Rational {
-    uint256 numer;
-    uint256 denom;
-}
-
-    Rational public fractionFee;
-
     event Deposited(address indexed _depositor, uint256 _weiAmount);
     event Payed(address _recipient, address _amount);
-
-    constructor() Ownable() public {
-        fractionFee = Rational(_feeNumber, _feeDenom);
-    }
 
     Escrow private escrow = new Escrow();
 
     function getReward() public view returns (uint256) {
-        escrow.depositOf(address(this)).mul(fractionFee.numer).div(fractionFee.denom);
+        return escrow.depositOf(address(this));
     }
 
     function deposit() public payable {
@@ -53,7 +42,7 @@ struct Rational {
         uint256 pl = _payments.length; 
         require (rl == pl, "Number of recepients and payments do not match.");
 
-        require(sum(_payments) == getReward());
+        require(sum(_payments) == address(this).balance, "Payments not equal to balance");
         _;
     }
 
@@ -64,5 +53,7 @@ struct Rational {
         for (uint256 i = 0; i < l; i++) {
             result.add(_array[i]);
         }
+
+        return result;
     }
 }
