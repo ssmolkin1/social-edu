@@ -28,7 +28,7 @@ contract("Contest", async accounts => {
     assert.strictEqual(reward.toNumber(), deposits);
   });
 
-  it("Should be able to withdraw funds from escrow", async () => {
+  /*   it("Should be able to withdraw funds from escrow", async () => {
     const deposits = 600;
 
     await contest.deposit({ from: accounts[0], value: deposits });
@@ -37,18 +37,13 @@ contract("Contest", async accounts => {
 
     const balance = await web3.eth.getBalance(contest.address);
     assert.strictEqual(parseInt(balance), deposits);
-  });
+  }); */
 
   it("Should be able to distribute rewards", async () => {
     const deposits = 2;
     const depositsInWei = web3.utils.toWei(deposits.toString(), "ether");
 
     await contest.deposit({ from: accounts[0], value: depositsInWei });
-
-    await contest.withdraw();
-
-    const balance = await web3.eth.getBalance(contest.address);
-    assert.strictEqual(balance, depositsInWei);
 
     const bBefore1 = web3.utils.fromWei(await web3.eth.getBalance(accounts[1]));
     const bBefore2 = web3.utils.fromWei(await web3.eth.getBalance(accounts[2]));

@@ -16,11 +16,9 @@ contract Contest is Ownable {
         escrow.deposit.value(msg.value)(address(this));
     }
 
-    function withdraw() public onlyOwner {
-        escrow.withdraw(address(this));
-    }
-
     function DistributeRewards(address[] memory _payees, uint256[] memory _payments) public onlyOwner {
+        escrow.withdraw(address(this));
+
         PaymentSplitter splitter = (new PaymentSplitter).value(address(this).balance)(_payees, _payments);
 
         for (uint256 i = 0; i < _payees.length; i++) {
