@@ -7,6 +7,15 @@
     {
       "type": "node",
       "request": "launch",
+      "name": "Mocha Tests",
+      "program": "${workspaceRoot}/node_modules/mocha/bin/mocha",
+      "args": ["--inspect-brk", "${workspaceFolder}/app/test"],
+      "port": 9229,
+      "internalConsoleOptions": "openOnSessionStart"
+    },
+    {
+      "type": "node",
+      "request": "launch",
       "name": "truffle test (debugable)",
       "cwd": "/home/sam/projects/social-edu",
       "program": "/home/sam/.node_modules_global/lib/node_modules/truffle/build/cli.bundled.js",
