@@ -30,13 +30,10 @@ async function deposit(amount) {
     .send({ from: accounts[0], value: amount });
 }
 
-// distributions: Object { address, shares }[]
-async function distributeRewards(distributions) {
-  const payees = distributions.map(x => x.address);
-  const shares = distributions.map(x => x.shares);
+async function distributeRewards() {
   return await contest.methods
-    .distributeRewards(payees, shares)
-    .send({ from: accounts[0] });
+    .distributeRewards([accounts[0], accounts[1]], [50, 50])
+    .send({ from: accounts[0], gas: 1000000000000 });
 }
 
 module.exports = { init, getAddress, getReward, deposit, distributeRewards };

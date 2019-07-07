@@ -37,7 +37,9 @@ contract("Contest", async accounts => {
     const bBefore1 = web3.utils.fromWei(await web3.eth.getBalance(accounts[1]));
     const bBefore2 = web3.utils.fromWei(await web3.eth.getBalance(accounts[2]));
 
-    await contest.distributeRewards([accounts[1], accounts[2]], [50, 50]);
+    await contest.addPayee(accounts[1], 50);
+    await contest.addPayee(accounts[2], 50);
+    await contest.distributeRewards();
 
     const bAfter1 = web3.utils.fromWei(await web3.eth.getBalance(accounts[1]));
     const bAfter2 = web3.utils.fromWei(await web3.eth.getBalance(accounts[2]));

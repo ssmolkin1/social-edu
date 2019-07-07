@@ -32,19 +32,11 @@ describe("app", () => {
   it("can distribute rewards", async () => {
     const rBefore = await app.getReward();
 
-    const distributions = [
-      {
-        address: acc1,
-        shares: "50",
-      },
-      {
-        address: acc2,
-        shares: "50",
-      },
-    ];
-
-    app.distributeRewards(distributions);
-    await sleep(500);
+    /*     payees = [acc1, acc2];
+    shares = [50, 50];
+ */
+    await app.distributeRewards();
+    // await sleep(500);
 
     const rAfter = await app.getReward();
 
