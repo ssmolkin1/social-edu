@@ -16,6 +16,10 @@ async function init() {
   accounts = await web3.eth.getAccounts();
 }
 
+function getAccounts() {
+  return accounts;
+}
+
 function getAddress() {
   return contest.address;
 }
@@ -30,10 +34,22 @@ async function deposit(amount) {
     .send({ from: accounts[0], value: amount });
 }
 
-async function distributeRewards() {
+async function addPayee(account, shares) {
   return await contest.methods
-    .distributeRewards([accounts[0], accounts[1]], [50, 50])
-    .send({ from: accounts[0], gas: 1000000000000 });
+    .addPayee(account, shares)
+    .send({ from: accounts[0], value: amount });
 }
 
-module.exports = { init, getAddress, getReward, deposit, distributeRewards };
+async function distributeRewards() {
+  return await contest.methods.distributeRewards().send({ from: accounts[0] });
+}
+
+module.exports = {
+  init,
+  getAddress,
+  getReward,
+  deposit,
+  distributeRewards,
+  addPayee,
+  getAccounts,
+};

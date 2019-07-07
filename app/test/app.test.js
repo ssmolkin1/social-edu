@@ -5,9 +5,6 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-acc1 = "0x90ab726706a2f42e310ce0667f820122332f94ff";
-acc2 = "0xbb8b41097bf18965274619b2b422229717ed1b11";
-
 describe("app", () => {
   it("deploys a Contest contract", async () => {
     await app.init();
@@ -29,12 +26,14 @@ describe("app", () => {
     assert.strictEqual(diff, amount);
   });
 
-  it("can distribute rewards", async () => {
-    const rBefore = await app.getReward();
+  it("can add payees", async () => {
+    const acc1 = app.getAccounts()[1];
+    const acc2 = app.getAccounts()[2];
+    await app.addPayee(acc1, 50);
+    await app.addPayee(acc2, 50);
+  });
 
-    /*     payees = [acc1, acc2];
-    shares = [50, 50];
- */
+  it("can distribute rewards", async () => {
     await app.distributeRewards();
     // await sleep(500);
 
